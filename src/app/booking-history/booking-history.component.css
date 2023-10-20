@@ -1,0 +1,61 @@
+/* Toolbar Styles */
+.toolbar {
+    background-color: #1976D2; /* Change to your preferred color */
+    color: white;
+}
+
+.dashboard-title {
+    font-size: 24px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+/* Booking History Table Styles */
+.booking-history {
+    margin: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+.booking-history-title {
+    font-size: 28px;
+    color: #fbf6f6; /* Change the color to your preference */
+    margin: 20px 0; /* Adjust the margin as needed for spacing */
+    text-align: center; /* Center the text horizontally */
+    text-transform: uppercase; /* Uppercase the text, adjust as needed */
+    font-weight: bold; /* Make the text bold */
+}
+ 
+.past-booking {
+  background-color: #f81212;  
+  color: white; 
+  font-weight: bold;  
+}
+
+

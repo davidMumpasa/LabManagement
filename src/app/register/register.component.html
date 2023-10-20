@@ -1,0 +1,54 @@
+<div class="register-container">
+    <div class="register-box">
+      <h2>Sign up</h2>
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" [(ngModel)]="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="email" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" [(ngModel)]="password" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="firstname">Firstname:</label>
+          <input type="text" id="firstname" name="firstname" [(ngModel)]="firstname" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="lastname">Lastname:</label>
+          <input type="text" id="lastname" name="lastname" [(ngModel)]="lastname" required>
+        </div>
+  
+        <div class="form-group">
+          <div class="radio-options">
+            <label class="radio-label" for="student">
+              <input type="radio" id="student" name="role" value="student" [(ngModel)]="role"> Student
+            </label>
+            <label class="radio-label" for="teacher">
+              <input type="radio" id="teacher" name="role" value="teacher" [(ngModel)]="role"> Teacher
+            </label>
+            <label class="radio-label" for="security">
+              <input type="radio" id="security" name="role" value="security" [(ngModel)]="role"> Security
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="profilePicture">Profile Picture:</label>
+          <input type="file" id="profilePicture" name="profilePicture" (change)="onProfilePictureChange($event)" accept="image/*">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </form>
+      <a routerLink="/login" class="router-link-login">Login</a>
+    </div>
+  </div>
+  

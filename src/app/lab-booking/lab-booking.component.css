@@ -1,0 +1,95 @@
+/* lab-booking.component.css */
+
+/* Create a flex container to center the form */
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Set the container to full viewport height */
+}
+
+/* Container styling */
+.container {
+  max-width: 450px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Form element styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"] {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Button styling */
+.btn-primary {
+  margin-top: 25px;
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add button border-radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 16px; /* Button text font size */
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Add smooth transition effect */
+}
+
+/* Hover effect for the button */
+.btn-primary:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
+
+/* Style the navigation links */
+button.mat-button {
+  color: white;
+  margin-left: 10px;
+}
+
+/* Style the spacer */
+.spacer {
+  flex: 1;
+}
+
+select#purpose {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Style the select element on focus */
+select#purpose:focus {
+  outline: none;
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add box shadow on focus */
+}
+
+/* Style the select options */
+select#purpose option {
+  font-size: 16px;
+}
+
+/* Add some margin or spacing as needed */
+.form-group select#purpose {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

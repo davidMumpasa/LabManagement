@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+    <span>Lab Availability Calendar</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/">Home</button>
+    <button mat-button routerLink="/profile">Profile</button>
+    <button mat-button routerLink="/labs">Labs</button>
+  </mat-toolbar>
+  
+  <div class="container">
+    <h1>Lab Availability Calendar</h1>
+    <div class="filter-controls">
+      <input type="text" [(ngModel)]="searchTerm" (input)="filterLabs()" placeholder="Search Lab">
+    </div>
+    <div class="calendar-view">
+      <div class="calendar-item" *ngFor="let item of filteredLabs">
+        <div class="availability-info">
+          <h2 class="labName"> {{ item.lab_name }}</h2>
+          <p><strong>Available From:</strong> {{ item.available_from | date: 'medium' }}</p>
+          <p><strong>Available To:</strong> {{ item.available_to | date: 'medium' }}</p>
+          <p><strong>Notes:</strong> {{ item.notes }}</p>
+        </div>
+        <div class="availability-status" [ngClass]="{ 'available': item.is_available, 'unavailable': !item.is_available }">
+          {{ item.is_available ? 'Available' : 'Unavailable' }}
+        </div>
+      </div>
+      <div class="no-results" *ngIf="filteredLabs.length === 0">
+        No labs match your search.
+      </div>
+    </div>
+  </div>
+  

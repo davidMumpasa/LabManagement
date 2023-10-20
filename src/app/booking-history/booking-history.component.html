@@ -1,0 +1,47 @@
+<!-- Toolbar with Navigation Links -->
+<mat-toolbar color="primary" class="toolbar">
+    <span class="dashboard-title">Dashboard</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/dashboard">Labs</button>
+    <button mat-button routerLink="/availability">Calendar</button>
+    <button mat-button routerLink="/profile">Profile</button>
+</mat-toolbar>
+
+<div *ngIf="bookings" class="booking-history">
+    <h1 class="booking-history-title">Booking History</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Lab Name</th>
+                <th>Booking Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Purpose</th>
+                <th>Actions</th>  
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Inside the <tr> element -->
+                <tr *ngFor="let booking of bookings" [ngClass]="{'past-booking': !isBookingEditable(booking.booking_date)}">
+                <td>{{ booking.lab_name }}</td>
+                <td>{{ booking.booking_date }}</td>
+                <td>{{ booking.start_time }}</td>
+                <td>{{ booking.end_time }}</td>
+                <td>{{ booking.purpose }}</td>
+                <td>
+                    <ng-container *ngIf="isBookingEditable(booking.booking_date)">
+                        <button mat-icon-button (click)="openEditReservationDialog(booking)">
+                            <mat-icon color="primary">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="openConfirmationDialog(booking.booking_id)">
+                            <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="!isBookingEditable(booking.booking_date)">
+                        Expired
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

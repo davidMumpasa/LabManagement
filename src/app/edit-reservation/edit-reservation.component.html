@@ -1,0 +1,28 @@
+<h2>Edit Reservation</h2>
+<form (ngSubmit)="onSubmit(editForm.value)" #editForm="ngForm">
+    <div class="form-group">
+        <label for="booking_date">Booking Date</label>
+        <input type="date" id="booking_date" name="booking_date" [(ngModel)]="booking.booking_date" required>
+    </div>
+    <div class="form-group">
+        <label for="start_time">Start Time</label>
+        <input type="time" id="start_time" name="start_time" [(ngModel)]="booking.start_time" required>
+    </div>
+    <div class="form-group">
+        <label for="end_time">End Time</label>
+        <input type="time" id="end_time" name="end_time" [(ngModel)]="booking.end_time" required>
+    </div>
+    <div class="form-group">
+      <div class="form-group">
+        <label for="purpose">Purpose</label>
+        <select id="purpose" name="purpose" [(ngModel)]="booking.purpose">
+            <option value="Study">Study</option>
+            <option value="Full booking">Full booking</option>
+        </select>
+    </div>
+    
+    </div>
+    <div class="form-group">
+        <button type="submit">Update Reservation</button>
+    </div>
+</form>

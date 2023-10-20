@@ -1,0 +1,178 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0b3855;
+  }
+
+  mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  
+  /* Style the navigation links */
+  button.mat-button {
+    color: white;
+    margin-left: 10px;
+  }
+  
+  /* Style the spacer */
+  .spacer {
+    flex: 1;
+  }
+  
+  /* Search Bar Styles */
+  .search-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .heroSearch input {
+    width: 300px;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    background-color: #e9e9e9;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+  
+  .heroSearch input:focus {
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Courses Container Styles */
+  .courses-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Lab Cards Container Styles */
+  .lab-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .lab-card {
+    background-color: #ebebeb;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 200px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .lab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .lab-card-content {
+    text-align: center;
+  }
+  
+  .lab-id {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .lab-name {
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #f1f1f1;
+    text-transform: uppercase;
+  }
+  /* Styling for the "Back to Login" button */
+.back-to-login-button {
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    padding: 10px 20px; /* Button padding */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add button border-radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    font-size: 16px; /* Button text font size */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Add smooth transition effect */
+  }
+  
+  /* Hover effect for the button */
+  .back-to-login-button:hover {
+    background-color: #0056b3; /* Change background color on hover */
+  }
+
+  .book-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+  }
+
+  .book-button:hover {
+    background-color: #0056b3; /* Change to a slightly different color on hover */
+  }
+  @keyframes flash {
+    0% {
+      color: green;
+    }
+    50% {
+      color: transparent;
+    }
+    100% {
+      color: green;
+    }
+  }
+  
+  .flashing {
+    animation: flash 1s infinite;
+  }
+
+  span.flashing {
+    animation: flash 1s infinite;
+  }
+  
+  /* Style the closed-status class */
+  span.closed-status {
+    color: red;
+  }
+
+  /* Style for the Logout button */
+button.logout-button {
+  background-color: #dc3545; /* Red background color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Padding for the button */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add button border-radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 16px; /* Button text font size */
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Add smooth transition effect */
+
+  /* Add a bit of margin to separate it from other buttons */
+  margin-right: 10px;
+}
+
+/* Hover effect for the Logout button */
+button.logout-button:hover {
+  background-color: #c82333; /* Change background color on hover */
+}

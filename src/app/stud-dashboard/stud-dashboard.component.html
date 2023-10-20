@@ -1,0 +1,56 @@
+<!-- Toolbar with Navigation Buttons and Icons -->
+<mat-toolbar color="primary">
+    <span>Dashboard</span>
+    <button mat-icon-button (click)="openNotifications()">
+        <mat-icon>notifications</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/availability">
+        <mat-icon>event</mat-icon> Calendar
+    </a>
+    <a mat-button routerLink="/profile">
+        <mat-icon>person</mat-icon> Profile
+    </a>
+    <a mat-button routerLink="/history">
+        <mat-icon>history</mat-icon> Reservations
+    </a>
+    <button mat-button (click)="logout()" class="logout-button">
+        <mat-icon>logout</mat-icon> Logout
+    </button>
+</mat-toolbar>
+
+
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Your content goes here -->
+    <div class="search-container">
+        <div class="heroSearch">
+            <input type="text" placeholder="Search labs" [(ngModel)]="searchTerm" (keyup)="filterLabs()">
+        </div>
+    </div>
+
+    <!-- Lab Cards Container -->
+    <div class="courses-container">
+        <h2>Available Labs</h2>
+        <div class="lab-cards">
+            <!-- Loop through your filtered labs and display each lab as a card -->
+            <div class="lab-card" *ngFor="let lab of filteredLabs">
+                <div class="lab-card-content">
+                    <h2 class="lab-id">{{ lab.lab_name }}</h2>
+                    <p class="lab-name">Location: {{ lab.location }}</p>
+                    <p class="lab-name">
+                      Status:
+                      <span [ngClass]="{'flashing': lab.status === 'opened', 'closed-status': lab.status === 'closed'}">
+                        {{ lab.status }}
+                      </span>
+                    </p>
+                  </div>
+                  
+                <button class="book-button"
+        *ngIf="isAuthenticated && (lab.status === 'null' || lab.status === 'opened')"
+        (click)="getLab(lab.id)">Book</button>
+            </div>
+        </div>
+    </div>
+</div>

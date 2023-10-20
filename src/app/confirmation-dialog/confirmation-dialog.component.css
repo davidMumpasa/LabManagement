@@ -1,0 +1,45 @@
+/* confirmation-dialog.css */
+
+/* Center the dialog content */
+.mat-dialog-content {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Style the confirmation message */
+  .confirmation-message {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style the Cancel button */
+  .cancel-button {
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cancel-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+  }
+  
+  /* Style the Delete button */
+  .delete-button {
+    background-color: #27ae60; /* Green color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .delete-button:hover {
+    background-color: #219955; /* Darker green on hover */
+  }
+  

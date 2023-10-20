@@ -1,0 +1,87 @@
+.container {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #ffffff; /* Dark gray text color */
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-controls {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .calendar-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Increased margin for spacing */
+    padding: 20px; /* Increased padding for a cleaner look */
+    border: 1px solid #ddd; /* Lighter border color */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    transition: background-color 0.3s ease-in-out; /* Smooth background color transition */
+  }
+  
+  .availability-info {
+    flex: 2;
+  }
+  
+  .availability-status {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    min-width: 100px;
+  }
+  
+  .available {
+    background-color: #4caf50; /* Green for available labs */
+    color: #fff; /* White text color */
+  }
+  
+  .unavailable {
+    background-color: #f44336; /* Red for unavailable labs */
+    color: #fff; /* White text color */
+  }
+  
+  .no-results {
+    text-align: center;
+    color: #f44336; /* Red text color for no results message */
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Style the navigation links */
+  button.mat-button {
+    color: white;
+    margin-left: 10px;
+  }
+  
+  /* Style the spacer */
+  .spacer {
+    flex: 1;
+  }
+.labName {
+    color: #007bff;
+}  
+.calendar-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  font-size: 17px;
+  transition: 0.1s;
+}

@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+  <span>Dashboard</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/availability">Calendar</button>
+  <button mat-button routerLink="/profile">Profile</button>
+  <button mat-button routerLink="/labs">Labs</button>
+</mat-toolbar>
+
+<div class="container">
+  <h1>User Profile</h1>
+  <form (ngSubmit)="saveProfile()">
+  <div class="profile-section">
+    <div class="profile-picture">
+      <img [src]="getUserProfilePicture()" alt="Profile Picture" />
+      <input type="file" id="profilePicture" (change)="onProfilePictureChange($event)" accept="image/*" />
+      <button (click)="uploadProfilePicture()">Upload Picture</button>
+    </div>
+
+    <div class="profile-details">
+      <div *ngIf="!isEditing">
+        <p><strong>Username:</strong> {{ userProfile.username }}</p>
+        <p><strong>Email:</strong> {{ userProfile.email }}</p>
+        <!-- Display other user profile data here -->
+        <button (click)="editProfile()">Edit Profile</button>
+      </div>
+      
+        <div *ngIf="isEditing">
+          <!-- Add form fields for editing user profile data -->
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" [(ngModel)]="userProfile.username" />
+      
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" [(ngModel)]="userProfile.email" />
+      
+          <!-- Only show the password input when in editing mode -->
+          <div *ngIf="isEditing">
+            <label for="Password">Password:</label>
+            <input type="password" id="password" name="password" [(ngModel)]="userProfile.password" />
+          </div>
+      
+          <label for="text">First name:</label>
+          <input type="text" id="first_name" name="first_name" [(ngModel)]="userProfile.first_name" />
+      
+          <label for="text">Last name:</label>
+          <input type="text" id="last_name" name="last_name" [(ngModel)]="userProfile.last_name" />
+      
+          <button type="submit">Save Profile</button>
+        </div>
+      
+    </div>
+  </div>
+</form>
+</div>
