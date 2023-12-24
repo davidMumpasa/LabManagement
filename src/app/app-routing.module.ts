@@ -9,6 +9,10 @@ import { LabAvailabilityComponent } from './lab-availability/lab-availability.co
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { BookingHistoryComponent } from './booking-history/booking-history.component';
 import { EditReservationComponent } from './edit-reservation/edit-reservation.component';
+import { DashboardComponent } from 'src/security/dashboard/dashboard.component';
+import { AccessLogsComponent } from 'src/security/access-logs/access-logs.component';
+import { LabOccupancyComponent } from 'src/security/lab-occupancy/lab-occupancy.component';
+import { UpcomingReservationsComponent } from 'src/security/upcoming-reservations/upcoming-reservations.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/welcome', pathMatch: 'full' }, 
@@ -22,7 +26,11 @@ const routes: Routes = [
     { path: 'availability', component: LabAvailabilityComponent },
     { path: 'profile', component: UserProfileComponent },
     { path: 'history', component: BookingHistoryComponent },
-    { path: 'editReservation', component: EditReservationComponent }
+    { path: 'editReservation', component: EditReservationComponent },
+    { path: 'Securitywelcome' , component: DashboardComponent},
+    { path: 'access-logs' , component: AccessLogsComponent},
+    { path: 'lab-occupancy' , component: LabOccupancyComponent},
+    { path: 'upcoming-reservations' , component: UpcomingReservationsComponent},
 ];
 
 @NgModule({

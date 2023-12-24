@@ -1,9 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Dashboard</span>
+  <span>Profile</span>
   <span class="spacer"></span>
-  <button mat-button routerLink="/availability">Calendar</button>
-  <button mat-button routerLink="/profile">Profile</button>
-  <button mat-button routerLink="/labs">Labs</button>
+  <a mat-button routerLink="/availability">
+      <mat-icon>event</mat-icon> Calendar
+  </a>
+  <a mat-button routerLink="/history">
+      <mat-icon>history</mat-icon> Reservations
+  </a>
+  <a mat-button routerLink="/labs">
+    <mat-icon>construction</mat-icon> Labs
+</a>
 </mat-toolbar>
 
 <div class="container">

@@ -25,11 +25,15 @@ export class LoginComponent {
         // Successful login logic
         Swal.fire({
           icon: 'success',
-          title: 'Registration Successful',
+          title: 'Login Successful',
           text: response.message,
         });
-       
-        this.router.navigate(['/dashboard']);
+        const user_type = response.user_type
+        if (user_type == "student"){
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/Securitywelcome']);
+        }
 
       },
       (error) => {

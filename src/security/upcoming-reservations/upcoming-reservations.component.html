@@ -1,0 +1,24 @@
+<div class="upcoming-reservations-container">
+  <nav>
+    <ul>
+      <li><a routerLink="/Securitywelcome">Dashboard</a></li>
+    </ul>
+  </nav>
+  <h2>Reservations</h2>
+  <button (click)="toggleReservations()">
+    {{ showUpcomingReservations ? 'View Reservation History' : 'View Upcoming Reservations' }}
+  </button>
+  <div *ngIf="reservations.length > 0; else noReservations">
+    <div *ngFor="let reservation of reservations" class="reservation-card">
+      <div class="reservation-details">
+        <p><strong>Lab Name:</strong> {{ reservation.lab_name }}</p>
+        <p><strong>Date:</strong> {{ reservation.booking_date }}</p>
+        <p><strong>Time:</strong> {{ reservation.start_time }} - {{ reservation.end_time }}</p>
+        <p><strong>Purpose:</strong> {{ reservation.purpose }}</p>
+      </div>
+    </div>
+  </div>
+  <ng-template #noReservations>
+    <p>No reservations available.</p>
+  </ng-template>
+</div>

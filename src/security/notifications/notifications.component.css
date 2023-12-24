@@ -1,0 +1,42 @@
+.notifications-container {
+    max-width: max-content;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .notification-list {
+    text-align: center;
+  }
+  
+  .notification-title {
+    color: #c22121;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .notification-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .notification-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .notification-content {
+    flex: 1;
+  }
+  
+  .notification-timestamp {
+    color: #888;
+  }
+  
+  .no-notifications-message {
+    color: #888;
+    text-align: center;
+  }
+  

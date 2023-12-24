@@ -1,7 +1,22 @@
 .container {
     padding: 20px;
   }
+  mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
   
+  /* Style the navigation links */
+  button.mat-button {
+    color: white;
+    margin-left: 10px;
+  }
+  
+  /* Style the spacer */
+  .spacer {
+    flex: 1;
+  }
   h1 {
     text-align: center;
     color: #ffffff; /* Dark gray text color */

@@ -1,0 +1,27 @@
+<div class="container">
+  <header>
+    <h1 class="text-center">Security Dashboard</h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a routerLink="/lab-occupancy">Lab Occupancy</a></li>
+      <li><a routerLink="/access-logs">Access Logs</a></li>
+      <li><a routerLink="/upcoming-reservations">Upcoming Reservations</a></li>
+    </ul>
+    <div class="notifications-icon" (click)="toggleNotifications()">
+      <div class="notifications-popup" *ngIf="showNotifications">
+        <div class="notification" *ngFor="let notification of notifications">
+          {{ notification }}
+        </div>
+      </div>
+    </div>
+  </nav>
+  <section class="dashboard-content">
+    <div class="welcome-message">
+      <h2>Welcome to the Security Dashboard!</h2>
+      <p>Explore the different sections using the navigation links above.</p>
+      <p>This is just a placeholder. You can replace this content with real data and features.</p>
+    </div>
+    <app-notifications *ngIf="showNotifications"></app-notifications>
+  </section>
+</div>

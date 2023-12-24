@@ -31,12 +31,10 @@ export class UserProfileComponent implements OnInit {
     if (typeof user_id === 'number') {
       return user_id;
     } else {
-      return null; // Handle the case where user_id is not a number or is null
+      return null; 
     }
   }
   
-  
-
   fetchUserProfile(userId: number): void {
     this.authService.getUserProfile(userId).subscribe(
       (data) => {
@@ -56,20 +54,21 @@ export class UserProfileComponent implements OnInit {
 
   saveProfile(): void {
     const formData = new FormData();
-
-    formData.append('user_id',this.userProfile.id);
+  
+    formData.append('user_id', this.userProfile.id);
     formData.append('username', this.userProfile.username);
     formData.append('email', this.userProfile.email);
     formData.append('firstname', this.userProfile.first_name);
     formData.append('lastname', this.userProfile.last_name);
     formData.append('password', this.userProfile.password);
-    formData.append('profile_picture', this.userProfile.profile_picture || '');
-
+    formData.append('profile_picture', this.newProfilePicture || this.userProfile.profile_picture||'');
+    // formData.append('profile_picture', this.userProfile.profile_picture || '');
+  
     this.authService.editUserProfile(formData).subscribe(
       () => {
-        this.isEditing = false;
+        this.isEditing = true;
         this.fetchUserProfile(this.userProfile.id);
-        alert("Profile Edited");
+        alert("Profile Edited"); 
       },
       (error) => {
         alert("Error updating user profile");
@@ -77,7 +76,6 @@ export class UserProfileComponent implements OnInit {
     );
   }
   
-
   onProfilePictureChange(event: any): void {
     const files = event.target.files;
     if (files && files.length > 0) {

@@ -1,11 +1,16 @@
-<!-- Toolbar with Navigation Links -->
-<mat-toolbar color="primary" class="toolbar">
-    <span class="dashboard-title">Dashboard</span>
+<mat-toolbar color="primary">
+    <span>Reservations</span>
     <span class="spacer"></span>
-    <button mat-button routerLink="/dashboard">Labs</button>
-    <button mat-button routerLink="/availability">Calendar</button>
-    <button mat-button routerLink="/profile">Profile</button>
-</mat-toolbar>
+    <a mat-button routerLink="/availability">
+        <mat-icon>event</mat-icon> Calendar
+    </a>
+    <a mat-button routerLink="/profile">
+        <mat-icon>person</mat-icon> Profile
+    </a>
+    <a mat-button routerLink="/labs">
+      <mat-icon>construction</mat-icon> Labs
+  </a>
+  </mat-toolbar>
 
 <div *ngIf="bookings" class="booking-history">
     <h1 class="booking-history-title">Booking History</h1>

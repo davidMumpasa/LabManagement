@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
@@ -7,19 +7,27 @@ import { Router } from '@angular/router';
   templateUrl: './stud-dashboard.component.html',
   styleUrls: ['./stud-dashboard.component.css']
 })
-export class StudDashboardComponent implements OnInit {
+export class StudDashboardComponent implements OnInit{
   labs: any[] = [];
   searchTerm = '';
   filteredLabs: any[] = [];
   isAuthenticated: boolean = false;
+  notifications: any[] = [];
+  selectedNotification: any;
+  
+  // Method to handle notification click
+  showNotificationDetails(notification: any): void {
+    this.selectedNotification = notification;
+  }
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchLabs();
     this.isAuthenticated = this.authService.isAuthenticated();
+    this.fetchNotifications();
   }
-
+  
   // Method to fetch labs from the API
   fetchLabs(): void {
     this.authService.getLabs().subscribe(
@@ -46,12 +54,22 @@ export class StudDashboardComponent implements OnInit {
       }
     );
   }
-  
-  openNotifications(): void {
-    // Implement your notification functionality here
-    // This function will be called when the notification button is clicked
-    // You can show a notification panel or perform any other notification-related action here
+
+  fetchNotifications(): void {
+    this.authService.getNotificationsFromBackend().subscribe(
+      (data) => {
+        if (Array.isArray(data)) {
+          this.notifications = data;
+        } else {
+          console.error('Invalid response from getNotificationsFromBackend:', data);
+        }
+      },
+      (error) => {
+        console.error('Error fetching notifications:', error);
+      }
+    );
   }
+
   
   filterLabs(): void {
     if (!this.searchTerm) {

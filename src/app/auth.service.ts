@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginResponse } from './auth.model';
 import { Time } from '@angular/common';
 import jwt_decode from 'jwt-decode';
@@ -9,6 +9,8 @@ import jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
+  private notificationsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  public notifications$: Observable<any[]> = this.notificationsSubject.asObservable();
   private loginUrl = 'http://127.0.0.1:5000/login';
   private registerUrl = 'http://127.0.0.1:5000/register';
   private labsApiUrl = 'http://127.0.0.1:5000/labs';
@@ -21,6 +23,8 @@ export class AuthService {
   private bookingHistory = "http://127.0.0.1:5000/bookingHistory";
   private deleteReservationUrl = "http://127.0.0.1:5000/cancelReservation";
   private updateReservationUrl = "http://127.0.0.1:5000/updateReservation";
+  private reservationUrl = 'http://127.0.0.1:5000/reservations';
+  private notificationUrl = 'http://127.0.0.1:5000/notifications';
 
   constructor(private http: HttpClient) {}
 
@@ -113,8 +117,9 @@ export class AuthService {
   }
 
   editUserProfile(formData: FormData): Observable<any> {
-    return this.http.put(this.editUserUrl, formData, this.httpOptions2);
-  }
+    return this.http.put(this.editUserUrl, formData);
+}
+
 
   deleteReservation(booking_id: number): Observable<any> {
     const headers = this.getHeaders();
@@ -146,4 +151,24 @@ export class AuthService {
       return null;
     }
   }
+
+  getReservations(): Observable<any[]> {
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(this.reservationUrl, { headers });
+  }
+  
+
+  getNotificationsFromBackend(): Observable<any[]>{
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(this.notificationUrl, { headers });
+  }
+
+  getNotifications(): any[] {
+    return this.notificationsSubject.value;
+  }
+
+  setNotifications(notifications: any[]): void {
+    this.notificationsSubject.next(notifications);
+  }
+
 }

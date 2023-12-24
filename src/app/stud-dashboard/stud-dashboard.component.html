@@ -1,9 +1,14 @@
 <!-- Toolbar with Navigation Buttons and Icons -->
 <mat-toolbar color="primary">
     <span>Dashboard</span>
-    <button mat-icon-button (click)="openNotifications()">
+    <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="notifications-button" (click)="fetchNotifications()">
         <mat-icon>notifications</mat-icon>
-    </button>
+      </button>
+      <mat-menu #notificationsMenu="matMenu">
+        <ng-container *ngFor="let notification of notifications">
+          <button mat-menu-item (click)="showNotificationDetails(notification)">{{ notification.content }}</button>
+        </ng-container>
+      </mat-menu>
     <span class="spacer"></span>
     <a mat-button routerLink="/availability">
         <mat-icon>event</mat-icon> Calendar
@@ -19,8 +24,7 @@
     </button>
 </mat-toolbar>
 
-
-
+<app-notification *ngIf="selectedNotification" [notification]="selectedNotification"></app-notification>
 <!-- Main Content -->
 <div class="main-content">
     <!-- Your content goes here -->
@@ -40,16 +44,15 @@
                     <h2 class="lab-id">{{ lab.lab_name }}</h2>
                     <p class="lab-name">Location: {{ lab.location }}</p>
                     <p class="lab-name">
-                      Status:
-                      <span [ngClass]="{'flashing': lab.status === 'opened', 'closed-status': lab.status === 'closed'}">
-                        {{ lab.status }}
-                      </span>
+                        Status:
+                        <span [ngClass]="{'flashing': lab.status === 'opened', 'closed-status': lab.status === 'closed'}">
+                            {{ lab.status }}
+                        </span>
                     </p>
-                  </div>
-                  
+                </div>
                 <button class="book-button"
-        *ngIf="isAuthenticated && (lab.status === 'null' || lab.status === 'opened')"
-        (click)="getLab(lab.id)">Book</button>
+                        *ngIf="isAuthenticated && (lab.status === 'null' || lab.status === 'opened')"
+                        (click)="getLab(lab.id)">Book</button>
             </div>
         </div>
     </div>

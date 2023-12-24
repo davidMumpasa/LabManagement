@@ -3,8 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #0b3855; /* Background color - you can change this to your preference */
+    background-color: #0b3855; 
   }
   
   .register-box {

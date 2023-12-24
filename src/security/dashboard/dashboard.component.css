@@ -1,0 +1,105 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Helvetica', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  background-color: #343a40;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: #343a40;
+}
+
+nav li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+nav a:hover {
+  color: #17a2b8;
+}
+
+.dashboard-content {
+  padding: 20px;
+}
+
+.welcome-message {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.welcome-message h2 {
+  color: #17a2b8;
+}
+
+.welcome-message p {
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.notifications-icon {
+  position: relative;
+}
+
+.notifications-icon::after {
+  content: '\1F514';
+  font-size: 24px;
+  color: #007bff;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.notifications-popup {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.notification {
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.notification:last-child {
+  border-bottom: none;
+}

@@ -1,0 +1,14 @@
+<div class="notifications-container">
+  <div *ngIf="notifications.length > 0; else noNotifications" class="notification-list">
+    <h3 class="notification-title">Notifications</h3>
+    <ul class="notification-items">
+      <li *ngFor="let notification of notifications" class="notification-item">
+        <span class="notification-content">{{ notification.content }}</span>
+        <span class="notification-timestamp">{{ notification.timestamp | date: 'medium' }}</span>
+      </li>
+    </ul>
+  </div>
+  <ng-template #noNotifications>
+    <p class="no-notifications-message">No notifications available.</p>
+  </ng-template>
+</div>

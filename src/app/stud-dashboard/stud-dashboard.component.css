@@ -176,3 +176,30 @@ button.logout-button {
 button.logout-button:hover {
   background-color: #c82333; /* Change background color on hover */
 }
+button.notifications-button {
+  color: white;
+}
+
+/* Style for the notifications menu */
+.mat-menu-content {
+  max-height: 200px; /* Set a maximum height to limit the dropdown size */
+  overflow-y: auto; /* Enable vertical scrolling if the content exceeds the height */
+}
+
+/* Style for each notification item */
+button.mat-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fff; /* Set your preferred background color */
+  color: #333; /* Set your preferred text color */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.mat-menu-item:hover {
+  background-color: #f0f0f0; /* Set your preferred hover background color */
+}

@@ -25,6 +25,13 @@ import { BookingHistoryComponent } from './booking-history/booking-history.compo
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { EditReservationComponent } from './edit-reservation/edit-reservation.component';
+import { NotificationsComponent } from 'src/security/notifications/notifications.component';
+import { DashboardComponent } from 'src/security/dashboard/dashboard.component';
+import { CommonModule } from '@angular/common';
+import { UpcomingReservationsComponent } from 'src/security/upcoming-reservations/upcoming-reservations.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { NotificationComponent } from './notification/notification.component';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +46,10 @@ import { EditReservationComponent } from './edit-reservation/edit-reservation.co
     BookingHistoryComponent,
     ConfirmationDialogComponent,
     EditReservationComponent,
+    NotificationsComponent,
+    DashboardComponent,
+    UpcomingReservationsComponent,
+    NotificationComponent,
     
   ],
   imports: [
@@ -56,6 +67,8 @@ import { EditReservationComponent } from './edit-reservation/edit-reservation.co
     ReactiveFormsModule,
     MatIconModule,
     MatDialogModule,
+    CommonModule,
+    MatMenuModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
