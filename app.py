@@ -2,11 +2,13 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from Entities.entities import db, User, Lab, LabBooking, LabAvailability, Notification
+from Entities.entities import AccessLog, db, User, Lab, LabBooking, LabAvailability, Notification
 from werkzeug.utils import secure_filename
+from datetime import datetime, time, timedelta
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
+# logging.basicConfig(filename='app.log', level=logging.DEBUG)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:DavidEbula1999@localhost:3306/LaboratoryManagement'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -22,6 +24,7 @@ jwt = JWTManager(app)
 
 @app.route('/login', methods=['POST'])
 def login():
+    global logged_in_users
     try:
         data = request.get_json()
         email = data['email']
@@ -30,8 +33,10 @@ def login():
 
         if user:
             access_token = create_access_token(identity=user.id)
-            print(access_token)
-            return jsonify({'message': 'Login successful.', 'access_token': access_token}), 200
+            user_type = user.role
+            user_email = user.email
+            logged_in_users = [{'user_id': user.id ,'user_email': user_email}]
+            return jsonify({'message': 'Login successful.', 'access_token': access_token,"user_type":user_type,"email":user_email}), 200
         else:
             return jsonify({'message': 'Invalid username or password.'}), 401
 
@@ -61,29 +66,47 @@ def book_lab(lab_id):
         end_time = data['end_time']
         purpose = data['purpose']
 
-        # Input validation (you can customize this based on your requirements)
+        # Input validation
         if not (booking_date and start_time and end_time and purpose):
             return jsonify({'message': 'Invalid input data'}), 400
-
-        lab = Lab.query.get(lab_id)
+         
+        lab = db.session.query(Lab).get(lab_id)
 
         if not lab:
             return jsonify({'message': 'Lab not found'}), 404
 
-        existing_booking = LabBooking.query.filter_by(lab_id=lab_id).first()
+
+        existing_booking = LabBooking.query.filter_by(lab_id=lab_id,user_id=user_id).first()
+        user_bookings = LabBooking.query.filter(LabBooking.user_id == user_id).all()
 
         if existing_booking and existing_booking.purpose == "full_booking":
             lab.current_capacity = lab.capacity
             return jsonify({'message': 'Lab is currently not available'}), 400
+        
+        # Convert strings to datetime.time objects
+        start_time_obj = datetime.strptime(start_time, '%H:%M').time()
+        end_time_obj = datetime.strptime(end_time, '%H:%M').time()
+
+        for booking in user_bookings:
+            booking_start_time = booking.start_time
+            booking_end_time = booking.end_time
+
+            if (
+                (start_time_obj >= booking_start_time and start_time_obj <= booking_end_time) or
+                (end_time_obj >= booking_start_time and end_time_obj <= booking_end_time) or
+                (start_time_obj <= booking_start_time and end_time_obj >= booking_end_time)
+            ):
+                return jsonify({'message': 'You have booked a lab in the same interval of time'})
 
         if lab.current_capacity == lab.capacity:
             lab.status = "closed"
             return jsonify({'message': 'Lab is full'}), 400
+        
 
         new_labBooking = LabBooking(
             lab_id=lab_id, user_id=user_id, booking_date=booking_date, start_time=start_time,
             end_time=end_time, purpose=purpose)
-
+ 
         if purpose == "full_booking":
             lab.status = "closed"
             lab.current_capacity = lab.capacity
@@ -113,7 +136,7 @@ def save_profile_picture(file):
     if file:
         filename = secure_filename(file.filename)
         # Use forward slashes in the file path
-        upload_folder = 'C:/Users/david/OneDrive/Documents/David/projects/lab-management-app/src/assets/images/profile'
+        upload_folder = 'C:/Users/Lenovo/Documents/projects/lab-management-app/LabManagement/src/assets/images/profile'
         file.save(os.path.join(upload_folder, filename))
         return filename  # Return the saved filename
 
@@ -121,16 +144,23 @@ def save_profile_picture(file):
 @app.route('/register', methods=['POST'])
 def create_user():
     try:
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        first_name = request.form['firstname']
-        last_name = request.form['lastname']
-        role = request.form['role']
-        profile_picture = request.files['profile_picture']
+        # Retrieve JSON data
+        json_data = request.get_json()
+        username = json_data.get('username')
+        print("username",username)
+        email = json_data.get('email')
+        password = json_data.get('password')
+        first_name = json_data.get('firstname')
+        last_name = json_data.get('lastname')
+        role = json_data.get('role')
+
+        # Retrieve file (profile_picture)
+        profile_picture = request.files.get('profile_picture')
+        print("profile_picture",profile_picture)
 
         if "@tut4life.ac.za" in email:
             # Check if the username already exists
+            # (Assuming you have a User model with SQLAlchemy)
 
             existing_user = User.query.filter_by(username=username).first()
             if existing_user:
@@ -138,20 +168,29 @@ def create_user():
 
             # Save the profile picture and get the saved filename
             profile_picture_filename = save_profile_picture(profile_picture)
-            print("--------------------------------------------")
-            print("profile_picture ", profile_picture_filename)
+            print("Profile Picture Filename:", profile_picture_filename)
 
             # Create a new user
-            new_user = User(username=username, password=password, role=role, first_name=first_name, last_name=last_name,
-                            email=email, profile_picture=profile_picture_filename)
+            new_user = User(
+                username=username,
+                password=password,
+                role=role,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                profile_picture=profile_picture_filename
+            )
+
             db.session.add(new_user)
             db.session.commit()
+
         else:
             return jsonify({'message': 'Incorrect Email Address. A TUT Email is required to Register'}), 400
 
         return jsonify({'message': 'User created successfully'}), 201
+
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'An internal server error occurred'}), 500
 
 
 @app.route('/lab', methods=['POST'])
@@ -179,27 +218,31 @@ def create_lab():
 
 
 @app.route('/labs', methods=['GET'])
-@jwt_required()
 def get_all_labs():
     labs = Lab.query.all()
     lab_list = []
 
-    for lab in labs:
-        if lab.current_capacity == lab.capacity:
-            lab.status = "closed"
-            db.session.add(lab)
-            db.session.commit()
+    for user_info in logged_in_users:
+        user_id = user_info['user_id']
+        print(f"User ID {user_id} found in the list.")
 
-        lab_data = {
-            'id': lab.id,
-            'lab_name': lab.lab_name,
-            'location': lab.location,
-            'capacity': lab.capacity,
-            'description': lab.description,
-            'status': lab.status,
-            'user_id': get_jwt_identity()
-        }
-        lab_list.append(lab_data)
+        for lab in labs:
+            if lab.current_capacity == lab.capacity:
+                lab.status = "closed"
+                db.session.add(lab)
+                db.session.commit()
+
+            lab_data = {
+                'id': lab.id,
+                'lab_name': lab.lab_name,
+                'location': lab.location,
+                'capacity': lab.capacity,
+                'current_capacity': lab.current_capacity,
+                'description': lab.description,
+                'status': lab.status,
+                'user_id': user_id
+            }
+            lab_list.append(lab_data)
 
     return jsonify(lab_list)
 
@@ -250,8 +293,7 @@ def add_lab_availability():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-
-# Get all LabAvailability records
+ 
 @app.route('/getAvailability', methods=['GET'])
 def get_lab_availabilities():
     availabilities = LabAvailability.query.all()
@@ -259,15 +301,23 @@ def get_lab_availabilities():
 
     for availability in availabilities:
         existing_lab = Lab.query.filter_by(id=availability.lab_id).first()
+
+        if existing_lab and existing_lab.status == "opened":
+            is_available = 1
+        else:
+            is_available = 0
+
         lab_availability = {
             'lab_id': availability.lab_id,
             'lab_name': existing_lab.lab_name,
             'available_from': availability.available_from,
             'available_to': availability.available_to,
-            'is_available': availability.is_available,
+            'is_available': is_available, 
             'notes': availability.notes
         }
+
         lab_availabilities.append(lab_availability)
+
     return jsonify(lab_availabilities)
 
 
@@ -286,6 +336,7 @@ def get_user(user_id):
             'role': user.role,
             'first_name': user.first_name,
             'last_name': user.last_name,
+            'password': user.password,
             'email': user.email,
             'profile_picture': user.profile_picture
         }
@@ -335,25 +386,31 @@ def edit_user():
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/bookingHistory/<int:user_id>', methods=['GET'])
-def get_booking_history(user_id):
-    lab_bookings = LabBooking.query.filter_by(user_id=user_id).all()
+@app.route('/bookingHistory/<int:user_id>/<string:user_email>', methods=['GET'])
+def booking_history(user_id, user_email):
 
-    bookings_list = []
+    for user_info in logged_in_users:
+        user_id1 = user_info['user_id']
+        user_email1 = user_info['user_email']
 
-    for lab_booking in lab_bookings:
-        lab_id = lab_booking.lab_id  # Access the lab_id from the individual LabBooking object
-        lab = Lab.query.filter_by(id=lab_id).first()  # Assuming lab_id is a foreign key to the Lab model
-        lab_data = {
-            'booking_id': lab_booking.id,
-            'lab_name': lab.lab_name,
-            'lab_id': lab.id,
-            'booking_date': lab_booking.booking_date.strftime('%Y-%m-%d'),
-            'start_time': lab_booking.start_time.strftime('%H:%M:%S'),
-            'end_time': lab_booking.end_time.strftime('%H:%M:%S'),
-            'purpose': lab_booking.purpose,
-        }
-        bookings_list.append(lab_data)
+        if user_id == user_id1 and user_email == user_email1:
+            lab_bookings = LabBooking.query.filter_by(user_id=user_id).all()
+
+            bookings_list = []
+
+            for lab_booking in lab_bookings:
+                lab_id = lab_booking.lab_id
+                lab = Lab.query.filter_by(id=lab_id).first()
+                lab_data = {
+                    'booking_id': lab_booking.id,
+                    'lab_name': lab.lab_name,
+                    'lab_id': lab.id,
+                    'booking_date': lab_booking.booking_date.strftime('%Y-%m-%d'),
+                    'start_time': lab_booking.start_time.strftime('%H:%M:%S'),
+                    'end_time': lab_booking.end_time.strftime('%H:%M:%S'),
+                    'purpose': lab_booking.purpose,
+                }
+                bookings_list.append(lab_data)
 
     return jsonify(bookings_list)
 
@@ -403,10 +460,8 @@ def update_reservation(booking_id):
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/notifications', methods=['GET'])
-@jwt_required()
-def get_notifications():
-    user_id = get_jwt_identity()
+@app.route('/notifications/<int:user_id>', methods=['GET'])
+def get_notifications(user_id):
     notifications = Notification.query.filter_by(user_id=user_id).all()
     # Convert notifications to a list of dictionaries
     notifications_data = [{'id': n.id, 'content': n.content, 'is_read': n.is_read, 'timestamp': n.timestamp} for n in
@@ -414,5 +469,70 @@ def get_notifications():
     return jsonify(notifications_data)
 
 
+@app.route('/bookingConfirmation', methods=['POST'])
+def booking_confirmation():
+    data = request.json
+
+    # Extract data from the request
+    user_id = data.get('user_id')
+    booking_id = data.get('booking_id')
+    confirmation_status = data.get('confirmation_status')
+
+    if user_id and booking_id and confirmation_status in ['yes', 'no']:
+        # Log the confirmation or rejection in the AccessLog table
+        action = f"Booking {confirmation_status.capitalize()} Confirmation"
+        description = f"User {user_id} {confirmation_status} confirmed the booking with ID {booking_id}"
+        access_log_entry = AccessLog(user_id=user_id, action=action, description=description)
+        db.session.add(access_log_entry)
+
+        db.session.commit()
+
+        return jsonify({'message': f'Booking {confirmation_status.capitalize()} confirmed successfully'}), 200
+    else:
+        return jsonify({'error': 'Invalid request data'}), 400
+    
+
+@app.route('/access-logs', methods=['GET'])
+def get_access_logs():
+    try:
+        # Query all access logs from the database
+        access_logs = AccessLog.query.all()
+
+        # Convert access logs to a list of dictionaries
+        access_logs_data = [
+            {'id': log.id, 'user_id': log.user_id, 'action': log.action, 'description': log.description, 'timestamp': log.timestamp}
+            for log in access_logs
+        ]
+
+        return jsonify(access_logs_data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+@app.route('/reservations', methods=['GET'])
+def get_all_reservations():
+    try:
+        # Query all reservations from the LabBooking table
+        reservations = LabBooking.query.all()
+
+        # Convert reservations to a list of dictionaries
+        reservations_data = [
+            {
+                'id': booking.id,
+                'lab_id': booking.lab_id,
+                'user_id': booking.user_id,
+                'booking_date': booking.booking_date.strftime('%Y-%m-%d'),
+                'start_time': booking.start_time.strftime('%H:%M:%S'),
+                'end_time': booking.end_time.strftime('%H:%M:%S'),
+                'purpose': booking.purpose
+            }
+            for booking in reservations
+        ]
+
+        return jsonify(reservations_data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -64,3 +64,16 @@ class Notification(db.Model):
         self.user_id = user_id
         self.content = content
         self.is_read = is_read
+
+
+class AccessLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    action = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+
+    def __init__(self, user_id, action, description=None):
+        self.user_id = user_id
+        self.action = action
+        self.description = description
