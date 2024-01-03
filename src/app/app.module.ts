@@ -31,6 +31,9 @@ import { CommonModule } from '@angular/common';
 import { UpcomingReservationsComponent } from 'src/security/upcoming-reservations/upcoming-reservations.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { NotificationComponent } from './notification/notification.component';
+import { AccessLogsComponent } from 'src/security/access-logs/access-logs.component';
+import { LabOccupancyComponent } from 'src/security/lab-occupancy/lab-occupancy.component';
+
 
 
 @NgModule({
@@ -50,6 +53,8 @@ import { NotificationComponent } from './notification/notification.component';
     DashboardComponent,
     UpcomingReservationsComponent,
     NotificationComponent,
+    AccessLogsComponent,
+    LabOccupancyComponent,
     
   ],
   imports: [

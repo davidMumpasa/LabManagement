@@ -1,1 +1,41 @@
-<p>lab-occupancy works!</p>
+<!-- lab-occupancy.component.html -->
+<div class="toolbar">
+    <div class="logo">Logo</div>
+    <ul class="nav-links">
+        <li><a href="/Securitywelcome">Home</a></li>
+        <li><a href="/upcoming-reservations">Reservations</a></li>
+        <li><a href="/access-logs">access-logs</a></li>
+    </ul>
+    <div class="user-info">
+        <img src="user-avatar.jpg" alt="User Avatar">
+        <span>User Name</span>
+    </div>
+</div>
+
+<div class="lab-occupancy-container">
+    <h2>Lab Occupancy</h2>
+  
+    <table class="lab-occupancy-table">
+      <thead>
+        <tr>
+          <th>Lab Name</th>
+          <th>Location</th>
+          <th>capacity</th>
+          <th>current_capacity</th>
+          <th>status</th>
+          
+           
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lab of labs">
+          <td>{{ lab.lab_name }}</td>
+          <td>{{ lab.location }}</td>
+          <td>{{ lab.capacity }}</td>
+          <td>{{ lab.current_capacity }}</td>
+          <td>{{ lab.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

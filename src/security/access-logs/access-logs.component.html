@@ -1,1 +1,49 @@
-<p>access-logs works!</p>
+<!-- your-component.component.html -->
+<!-- your-component.component.html -->
+<div class="toolbar">
+    <div class="logo">Logo</div>
+    <ul class="nav-links">
+        <li><a href="/Securitywelcome">Home</a></li>
+        <li><a href="/upcoming-reservations">Reservations</a></li>
+        <li><a href="/lab-occupancy">lab-occupancy</a></li>
+    </ul>
+    <div class="user-info">
+      <button mat-button (click)="logout()" class="logout-button">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    </div>
+</div>
+
+
+
+<div class="access-logs-container">
+    <h2>Access Logs</h2>
+  
+    <table class="access-logs-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User ID</th>
+          <th>Action</th>
+          <th>Description</th>
+          <th>Timestamp</th>
+          <th>Presence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of accessLogs" [class.yes]="log.isYes" [class.no]="log.isNo">
+          <td>{{ log.id }}</td>
+          <td>{{ log.user_id }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.description }}</td>
+          <td>{{ log.timestamp | date: 'medium' }}</td>
+          <td>
+            <div class="flashing-circle" *ngIf="log.isYes || log.isNo">
+              <div class="presence-circle" [ngClass]="{'yes-circle': log.isYes, 'no-circle': log.isNo}"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

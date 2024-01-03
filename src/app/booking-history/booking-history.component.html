@@ -27,14 +27,14 @@
         </thead>
         <tbody>
             <!-- Inside the <tr> element -->
-                <tr *ngFor="let booking of bookings" [ngClass]="{'past-booking': !isBookingEditable(booking.booking_date)}">
+                <tr *ngFor="let booking of bookings" [ngClass]="{'past-booking': !isBookingEditable(booking.booking_date,booking.end_time)}">
                 <td>{{ booking.lab_name }}</td>
                 <td>{{ booking.booking_date }}</td>
                 <td>{{ booking.start_time }}</td>
                 <td>{{ booking.end_time }}</td>
                 <td>{{ booking.purpose }}</td>
                 <td>
-                    <ng-container *ngIf="isBookingEditable(booking.booking_date)">
+                    <ng-container *ngIf="isBookingEditable(booking.booking_date,booking.end_time)">
                         <button mat-icon-button (click)="openEditReservationDialog(booking)">
                             <mat-icon color="primary">edit</mat-icon>
                         </button>
@@ -42,7 +42,7 @@
                             <mat-icon color="warn">delete</mat-icon>
                         </button>
                     </ng-container>
-                    <ng-container *ngIf="!isBookingEditable(booking.booking_date)">
+                    <ng-container *ngIf="!isBookingEditable(booking.booking_date,booking.end_time)">
                         Expired
                     </ng-container>
                 </td>

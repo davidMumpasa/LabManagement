@@ -13,6 +13,8 @@ export class LabBookingComponent implements OnInit {
   bookingForm: FormGroup;
   labId: number | null;
   currentDate: Date = new Date();
+  maxBookingDate: string;
+  
 
   constructor(
     private authService: AuthService,
@@ -30,6 +32,8 @@ export class LabBookingComponent implements OnInit {
     // Get the lab ID from the URL using ActivatedRoute
     const labIdParam = this.route.snapshot.paramMap.get('id');
     this.labId = labIdParam ? +labIdParam : null; 
+    this.maxBookingDate = this.calculateMaxBookingDate();
+    this.initForm();
   } 
 
   ngOnInit(): void {}
@@ -55,6 +59,21 @@ export class LabBookingComponent implements OnInit {
     return formatedTime
   }
 
+  calculateMaxBookingDate(): string {
+    const currentDate = new Date();
+    const maxDate = new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), currentDate.getDate());
+    return maxDate.toISOString().split('T')[0];
+  }
+
+  initForm(): void {
+    this.bookingForm = this.formBuilder.group({
+      booking_date: ['', Validators.required],
+      start_time: ['', Validators.required],
+      end_time: ['', Validators.required],
+      purpose: ['full_booking', Validators.required]
+    });
+  }
+
   bookLab() {
     if (this.labId !== null && this.bookingForm.valid) {
       const { booking_date, start_time, end_time, purpose } = this.bookingForm.value;
@@ -65,27 +84,21 @@ export class LabBookingComponent implements OnInit {
       const selectedStartTime = parseInt(start_time.split(':')[0]) * 60 + parseInt(start_time.split(':')[1]);
       const selectedEndTime = parseInt(end_time.split(':')[0]) * 60 + parseInt(end_time.split(':')[1]);
   
-      if (selectedDate <= currentDate) {
+      if (selectedDate !>= currentDate) {
         alert('Selected date must be in the future');
       } else if (selectedDate.getTime() === currentDate.getTime() && selectedStartTime <= currentTime) {
         alert('Selected start time must be in the future');
       } else if (selectedEndTime <= selectedStartTime) {
         alert('End time must be greater than start time');
       } else {
-        console.log('*********************************');
-        console.log(booking_date + ' -- ' + start_time + ' -- ' + end_time);
-        console.log('*********************************');
-  
         this.authService.labBooking(this.labId, booking_date, start_time, end_time, purpose).subscribe(
           (response) => {
-            // Handle the successful booking response here
             console.log('Lab booking successful', response);
-            alert('Booking was successful');
+            alert(response.message);
           },
           (error) => {
-            // Handle booking error here
             console.error('Lab booking error', error);
-            alert('Booking Failed');
+            alert(error.message);
           }
         );
       }

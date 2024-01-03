@@ -25,6 +25,9 @@ export class AuthService {
   private updateReservationUrl = "http://127.0.0.1:5000/updateReservation";
   private reservationUrl = 'http://127.0.0.1:5000/reservations';
   private notificationUrl = 'http://127.0.0.1:5000/notifications';
+  private reminderUrl = 'http://127.0.0.1:5000/reminder';
+  private confirmBookingUrl = 'http://127.0.0.1:5000/bookingConfirmation';
+  private accesslogUrl = 'http://127.0.0.1:5000/access-logs';
 
   constructor(private http: HttpClient) {}
 
@@ -54,9 +57,21 @@ export class AuthService {
     );
   }
 
-  register(formData: FormData): Observable<any> {
-    return this.http.post(this.registerUrl, formData, this.httpOptions);
+  register(data: any, formData: FormData): Observable<any> {
+    // Update the headers based on the form of data being sent
+    const httpOptions = formData ? {
+      headers: new HttpHeaders()
+    } : {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    const mergedData = { ...data, ...formData };
+
+    return this.http.post(this.registerUrl, mergedData, httpOptions);
   }
+  
 
   storeToken(token: string): void {
     localStorage.setItem('access_token', token);
@@ -127,9 +142,9 @@ export class AuthService {
     return this.http.delete<any>(apiUrl, { headers });
   }
 
-  getBooking_history(user_id: number): Observable<any[]> {
+  getBooking_history(user_id: number,user_email:string): Observable<any[]> {
     const headers = this.getHeaders();
-    const apiUrl = `${this.bookingHistory}/${user_id}`;
+    const apiUrl = `${this.bookingHistory}/${user_id}/${user_email}`;
     return this.http.get<any[]>(apiUrl,{ headers });
   }
 
@@ -158,9 +173,16 @@ export class AuthService {
   }
   
 
-  getNotificationsFromBackend(): Observable<any[]>{
+  getNotificationsFromBackend(user_id: number): Observable<any[]> {
     const headers = this.getHeaders();
-    return this.http.get<any[]>(this.notificationUrl, { headers });
+    const apiUrl = `${this.notificationUrl}/${user_id}`;
+    return this.http.get<any[]>(apiUrl, { headers });
+  }
+  
+
+  getReminder(): Observable<any[]>{
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(this.reminderUrl, { headers });
   }
 
   getNotifications(): any[] {
@@ -170,5 +192,21 @@ export class AuthService {
   setNotifications(notifications: any[]): void {
     this.notificationsSubject.next(notifications);
   }
+
+  confirmBooking(userId: number, bookingId: number, confirmationStatus: string): Observable<any> {
+    const payload = {
+      user_id: userId,
+      booking_id: bookingId,
+      confirmation_status: confirmationStatus
+    };
+
+    return this.http.post(this.confirmBookingUrl, payload);
+  }
+
+  getAccessLogs(): Observable<any[]> {
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(this.accesslogUrl, { headers });
+  }
+
 
 }

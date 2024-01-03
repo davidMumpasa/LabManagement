@@ -18,31 +18,37 @@ export class RegisterComponent {
   constructor(private authService: AuthService) {}
 
   onSubmit(): void {
+    const registrationData = {
+      username: this.username,
+      email: this.email,
+      password: this.password,
+      firstname: this.firstname,
+      lastname: this.lastname,
+      role: this.role,
+      profile_picture: this.profilePicture || ''
+    };
     const formData = new FormData();
-    formData.append('username', this.username);
-    formData.append('email', this.email);
-    formData.append('password', this.password);
-    formData.append('firstname', this.firstname);
-    formData.append('lastname', this.lastname);
-    formData.append('role', this.role);
-    formData.append('profile_picture', this.profilePicture|| '');
+
+    if (this.profilePicture) {
+      formData.append('profile_picture', this.profilePicture, this.profilePicture.name);
+    }
   
-    this.authService.register(formData).subscribe(
+    this.authService.register(registrationData,formData).subscribe(
       (response) => {
         if (response && response.message) {
           const registrationMessage = response.message;
-          alert("registration successfull")
-          console.log('Registration Message:', registrationMessage);
+          alert(registrationMessage);
         }
       },
       (error) => {
         // Failed registration logic
         const registrationMessage = error.message;
-        alert("registration Failed")
+        alert("Registration Failed");
         console.log('Registration Message:', registrationMessage);
       }
     );
   }
+  
   
 
   onProfilePictureChange(event: any): void {

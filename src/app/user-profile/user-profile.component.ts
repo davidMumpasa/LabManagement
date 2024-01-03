@@ -62,7 +62,6 @@ export class UserProfileComponent implements OnInit {
     formData.append('lastname', this.userProfile.last_name);
     formData.append('password', this.userProfile.password);
     formData.append('profile_picture', this.newProfilePicture || this.userProfile.profile_picture||'');
-    // formData.append('profile_picture', this.userProfile.profile_picture || '');
   
     this.authService.editUserProfile(formData).subscribe(
       () => {

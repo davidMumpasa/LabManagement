@@ -82,23 +82,31 @@ export class BookingHistoryComponent implements OnInit {
   }
 
   getBookinghistory(userId: number): void {
-    this.authService.getBooking_history(userId).subscribe(
-      (data) => {
-        this.bookings = data;
-      },
-      (error) => {
-        console.error('Error fetching Reservations:', error);
-      }
-    );
+    const user_email = localStorage.getItem('user_email');
+    
+    if (user_email !== null) {
+      this.authService.getBooking_history(userId, user_email).subscribe(
+        (data) => {
+          this.bookings = data;
+        },
+        (error) => {
+          console.error('Error fetching Reservations:', error);
+        }
+      );
+    } else {
+      console.error('user_email is null');
+      // Handle the case where user_email is null, maybe show an error message or take appropriate action.
+    }
   }
+  
  
 
-  isBookingEditable(bookingDate: string): boolean {
-    const currentDate = new Date();
-    const bookingDateValue = new Date(bookingDate);
-   
-  
-    return currentDate <= bookingDateValue;
+  isBookingEditable(bookingDate: string, end_time: string): boolean {
+    const currentDateTime = new Date();
+    const bookingDateTime = new Date(`${bookingDate} ${end_time}`);
+    
+    return currentDateTime < bookingDateTime;
   }
+  
   
 }

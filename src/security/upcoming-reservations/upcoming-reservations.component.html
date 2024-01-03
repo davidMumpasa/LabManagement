@@ -1,9 +1,17 @@
+<div class="toolbar">
+  <div class="logo">Logo</div>
+  <ul class="nav-links">
+      <li><a href="/Securitywelcome">Home</a></li>
+      <li><a href="/access-logs">Access Log</a></li>
+      <li><a href="/lab-occupancy">lab-occupancy</a></li>
+  </ul>
+  <div class="user-info">
+      <img src="user-avatar.jpg" alt="User Avatar">
+      <span>User Name</span>
+  </div>
+</div>
+
 <div class="upcoming-reservations-container">
-  <nav>
-    <ul>
-      <li><a routerLink="/Securitywelcome">Dashboard</a></li>
-    </ul>
-  </nav>
   <h2>Reservations</h2>
   <button (click)="toggleReservations()">
     {{ showUpcomingReservations ? 'View Reservation History' : 'View Upcoming Reservations' }}

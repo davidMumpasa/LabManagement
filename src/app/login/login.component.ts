@@ -29,6 +29,8 @@ export class LoginComponent {
           text: response.message,
         });
         const user_type = response.user_type
+        const user_email = response.email
+        localStorage.setItem('user_email', user_email.toString());
         if (user_type == "student"){
           this.router.navigate(['/dashboard']);
         } else {
